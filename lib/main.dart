@@ -12,11 +12,40 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  int count = 0;
+  bool showTitle = true;
+
+  void toggleTitle() {
+    setState(() {
+      showTitle = !showTitle;
+    });
+  }
+
+  // 상태 초기화 method
+  // build method보다 먼저 선언되어야
   @override
-  // context: 모든 상위(부모) 요소들에 대한 정보, 부모 요소 접근 가능
+  void initState() {
+    super.initState();
+    print('initState!');
+    count = 0;
+  }
+
+  // widget tree를 return하는 method(widget이 화면에서 제거될 때 호출)
+  @override
+  void dispose() {
+    super.dispose();
+    print('dispose!');
+  }
+
+  void onPressed() {
+    setState(() {
+      count++;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // 테마 설정
       theme: ThemeData(
         textTheme: const TextTheme(
           titleLarge: TextStyle(
@@ -24,13 +53,21 @@ class _AppState extends State<App> {
           ),
         ),
       ),
-      home: const Scaffold(
-        backgroundColor: Color(0xFFF4EDDB),
+      home: Scaffold(
+        backgroundColor: const Color(0xFFF4EDDB),
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MyLargeTitle(),
+            showTitle ? const MyLargeTitle() : const Text('nothing'),
+            Text(
+              '$count',
+              style: const TextStyle(fontSize: 15),
+            ),
+            IconButton(
+                onPressed: onPressed, icon: const Icon(Icons.plus_one_rounded)),
+            IconButton(
+                onPressed: toggleTitle, icon: const Icon(Icons.refresh_rounded))
           ],
         )),
       ),
@@ -48,9 +85,7 @@ class MyLargeTitle extends StatelessWidget {
     return Text(
       'My Large Title',
       style: TextStyle(
-          // 부모 요소 접근이 가능한 context를 사용해 부모 요소에서 설정한 theme를 자식 요소에 적용
-          fontSize: 30,
-          color: Theme.of(context).textTheme.titleLarge!.color),
+          fontSize: 30, color: Theme.of(context).textTheme.titleLarge!.color),
     );
   }
 }
