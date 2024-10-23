@@ -22,7 +22,7 @@ class _AppState extends State<App> {
   }
 
   // 상태 초기화 method
-  // build method보다 먼저 선언되어야
+  // build method보다 먼저 선언되어야(build 이전에 호출)
   @override
   void initState() {
     super.initState();
