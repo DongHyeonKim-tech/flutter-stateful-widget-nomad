@@ -12,14 +12,13 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int counter = 0;
+  List<int> numbers = [];
 
   void onClicked() {
-    // setState 선언 시 state 값 변경 시 UI 즉시 반영, 밖에서는 UI 즉시 반영 X
-    // setState 선언 이후 setState 밖에서 값을 변경해도 즉시 반영되긴 한다(...?)
-    // counter = counter + 1;
+    // 데이터 변경해야 되나 UI 즉시 반영 X => setState 제거
+    // 데이터 변경 및 UI 즉시 반영 => setState 사용
     setState(() {
-      counter++;
+      numbers.add(numbers.length);
     });
   }
 
@@ -36,10 +35,7 @@ class _AppState extends State<App> {
               'Click Count',
               style: TextStyle(fontSize: 30),
             ),
-            Text(
-              '$counter',
-              style: const TextStyle(fontSize: 30),
-            ),
+            for (var n in numbers) Text('$n'),
             IconButton(
               onPressed: () => onClicked(),
               icon: const Icon(Icons.add_box_rounded),
