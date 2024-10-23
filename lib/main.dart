@@ -15,7 +15,12 @@ class _AppState extends State<App> {
   int counter = 0;
 
   void onClicked() {
-    counter = counter + 1;
+    // setState 선언 시 state 값 변경 시 UI 즉시 반영, 밖에서는 UI 즉시 반영 X
+    // setState 선언 이후 setState 밖에서 값을 변경해도 즉시 반영되긴 한다(...?)
+    // counter = counter + 1;
+    setState(() {
+      counter++;
+    });
   }
 
   @override
