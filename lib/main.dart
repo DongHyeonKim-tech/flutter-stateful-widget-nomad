@@ -12,37 +12,45 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  List<int> numbers = [];
-
-  void onClicked() {
-    // 데이터 변경해야 되나 UI 즉시 반영 X => setState 제거
-    // 데이터 변경 및 UI 즉시 반영 => setState 사용
-    setState(() {
-      numbers.add(numbers.length);
-    });
-  }
-
   @override
+  // context: 모든 상위(부모) 요소들에 대한 정보, 부모 요소 접근 가능
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color(0xFFF4EDDB),
+      // 테마 설정
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+      ),
+      home: const Scaffold(
+        backgroundColor: Color(0xFFF4EDDB),
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Click Count',
-              style: TextStyle(fontSize: 30),
-            ),
-            for (var n in numbers) Text('$n'),
-            IconButton(
-              onPressed: () => onClicked(),
-              icon: const Icon(Icons.add_box_rounded),
-            )
+            MyLargeTitle(),
           ],
         )),
       ),
+    );
+  }
+}
+
+class MyLargeTitle extends StatelessWidget {
+  const MyLargeTitle({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'My Large Title',
+      style: TextStyle(
+          // 부모 요소 접근이 가능한 context를 사용해 부모 요소에서 설정한 theme를 자식 요소에 적용
+          fontSize: 30,
+          color: Theme.of(context).textTheme.titleLarge!.color),
     );
   }
 }
